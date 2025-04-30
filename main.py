@@ -24,10 +24,9 @@ if response.status_code == 200:
 
     # Check if the text exists in the page
     if search_text in soup.get_text():
-        print("Text FOUND on the page.")
-        send_push_notification()
+        print("No Appointments available")
     else:
-        print("Text NOT found on the page.")
+        print("Appointments available... Sending push notification")
         send_push_notification()
 else:
     print(f"Failed to retrieve page. Status code: {response.status_code}")
