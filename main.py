@@ -1,11 +1,8 @@
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-# URL to check
-url = "https://service.berlin.de/terminvereinbarung/termin/all/351180/"
 
-# Make a request to the website
-response = requests.get(url)
 
 def send_push_notification():
     message = "Einburgurungstest Termin avaliable at " + url
@@ -15,18 +12,34 @@ def send_push_notification():
     )
     print("Push notification sent!" if response.status_code == 200 else "Failed to send push.")
 
-# Check if the request was successful
-if response.status_code == 200:
-    soup = BeautifulSoup(response.text, 'html.parser')
 
-    # The text we're looking for
-    search_text = "Leider sind aktuell keine Termine für ihre Auswahl verfügbar."
+def main():
+    # URL to check
+    url = "https://service.berlin.de/terminvereinbarung/termin/all/351180/"
 
-    # Check if the text exists in the page
-    if search_text in soup.get_text():
-        print("No Appointments available")
+    # Make a request to the website
+    response = requests.get(url)
+
+        # Check if the request was successful
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # The text we're looking for
+        search_text = "Leider sind aktuell keine Termine für ihre Auswahl verfügbar."
+
+        # Check if the text exists in the page
+        if search_text in soup.get_text():
+            print("No Appointments available")
+        else:
+            print("Appointments available... Sending push notification")
+            send_push_notification()
     else:
-        print("Appointments available... Sending push notification")
-        send_push_notification()
-else:
-    print(f"Failed to retrieve page. Status code: {response.status_code}")
+        print(f"Failed to retrieve page. Status code: {response.status_code}")
+
+if __name__ == "__main__":
+    hour = datetime.now().hour
+    if hour >= 0 and hour <= 7:
+        print("Not running at this time")
+    else:
+        main()
+        
