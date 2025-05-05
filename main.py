@@ -38,7 +38,7 @@ def main():
 
 if __name__ == "__main__":
     hour = datetime.now().hour
-    if hour >= 0 and hour <= 7:
+    if hour <= 5 or hour > 20:
         print("Not running at this time")
     else:
         main()
