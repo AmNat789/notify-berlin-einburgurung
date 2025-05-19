@@ -14,9 +14,6 @@ def send_push_notification():
 
 
 def main():
-    # URL to check
-    url = "https://service.berlin.de/terminvereinbarung/termin/all/351180/"
-
     # Make a request to the website
     response = requests.get(url)
 
@@ -37,6 +34,7 @@ def main():
         print(f"Failed to retrieve page. Status code: {response.status_code}")
 
 if __name__ == "__main__":
+    url = "https://service.berlin.de/terminvereinbarung/termin/all/351180/"
     hour = datetime.now().hour
     if hour <= 5 or hour > 20:
         print("Not running at this time")
